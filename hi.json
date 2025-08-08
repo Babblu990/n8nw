@@ -1,0 +1,104 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 7
+            },
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "99f16727-1364-4ad5-a3a8-5086034fafcb",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "cityName": "Tenali,IN",
+        "language": "en"
+      },
+      "type": "n8n-nodes-base.openWeatherMap",
+      "typeVersion": 1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "3be254bf-57b0-490d-b613-3e2893441425",
+      "name": "OpenWeatherMap",
+      "credentials": {
+        "openWeatherMapApi": {
+          "id": "fOQhZF7s5jBFZ07z",
+          "name": "OpenWeatherMap account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "from": "+14155238886",
+        "to": "+917075883194",
+        "toWhatsapp": true,
+        "message": "=Good morning! 🌤 Weather in {{$json[\"name\"]}}: {{$json[\"weather\"][0][\"description\"]}}, Temp: {{($json[\"main\"][\"temp\"] - 273.15).toFixed(1)}}°C, Humidity: {{$json[\"main\"][\"humidity\"]}}%.",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.twilio",
+      "typeVersion": 1,
+      "position": [
+        416,
+        0
+      ],
+      "id": "ea43c3ee-6b8b-499d-be5a-ad123d0db16b",
+      "name": "Send an SMS/MMS/WhatsApp message",
+      "credentials": {
+        "twilioApi": {
+          "id": "4OGKcJ9NJqMw6bDa",
+          "name": "Twilio account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "OpenWeatherMap",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenWeatherMap": {
+      "main": [
+        [
+          {
+            "node": "Send an SMS/MMS/WhatsApp message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "f82e6e60-491e-4da3-825e-6791d1088cbf",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "093e0094de37fd176095230a30fbd64b5ec59a344cc964845940fc750457bbba"
+  },
+  "id": "T5hFw9jznN4eh80Y",
+  "tags": []
+}
